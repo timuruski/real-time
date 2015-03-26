@@ -1,0 +1,14 @@
+#! /usr/bin/env ruby
+
+require_relative '../env'
+require 'database'
+
+case ARGV.shift
+when 'migrate'
+  require 'sequel/extensions/migration'
+  migrations_path = File.expand_path '../db', __dir__
+  Sequel::Migrator.apply(DB, migrations_path)
+else
+  warn 'Usage bin/db migrate'
+  exit 1
+end
