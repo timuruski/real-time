@@ -1,12 +1,13 @@
-Class.new(Sequel::Migration) do
-  def up
+Sequel.migration do
+  STDOUT.puts __FILE__
+  up do
     create_table :polls do
       primary_key :id
-      String :name
+      column :name, String, null: false
     end
   end
 
-  def down
+  down do
     drop_table :polls
   end
 end
