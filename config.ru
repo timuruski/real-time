@@ -1,4 +1,12 @@
 require_relative 'env'
-require 'real_time/app'
+require 'rack/contrib'
+require 'real_time/api'
 
-run RealTime::App
+app = Rack::Builder.new do
+  map '/polls' do
+    use Rack::PostBodyContentTypeParser
+    run RealTime::Api
+  end
+end
+
+run app

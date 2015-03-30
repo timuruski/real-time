@@ -4,5 +4,7 @@ require 'irb'
 require 'irb/completion'
 require_relative '../env'
 
+include RealTime
+
 ARGV.clear
 IRB.start

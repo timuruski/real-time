@@ -1,4 +1,5 @@
 module RealTime
-  autoload :App, 'real_time/app'
-  autoload :DB, 'real_time/db'
+  autoload :Api,            'real_time/api'
+  autoload :DB,             'real_time/db'
+  autoload :PollRepository, 'real_time/poll_repository'
 end

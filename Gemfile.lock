@@ -5,6 +5,8 @@ GEM
     rack (1.6.0)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-contrib (1.2.0)
+      rack (>= 0.9.1)
     scorched (0.22)
       rack (~> 1.4)
       rack-accept (~> 0.4)
@@ -18,6 +20,7 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv
+  rack-contrib
   scorched
   sequel
   sqlite3
