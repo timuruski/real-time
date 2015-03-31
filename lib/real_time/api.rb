@@ -23,10 +23,11 @@ module RealTime
     end
 
     post '/' do
-      poll_name = request.POST['name']
-      polls.create(name: poll_name)
+      poll_name = request.POST.fetch('name')
+      candidate_names = request.POST.fetch('candidates')
+      poll_id = polls.create(poll_name, candidate_names)
 
-      nil
+      absolute "/#{poll_id}"
     end
 
     get '/:id' do
@@ -43,9 +44,16 @@ module RealTime
       nil
     end
 
-    post '/:id/:option' do
-      'vote'
+    post '/:id/:candidate' do
+      poll_id = request.captures[:id]
+      candidate_id = request.captures[:candidate]
+
+      polls.vote(poll_id, candidate_id)
+
+      absolute "/#{poll_id}"
     end
+
+    private
 
     def polls
       @polls = PollRepository.new

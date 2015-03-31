@@ -18,17 +18,23 @@ module RealTime
       @poll_dataset[id: id]
     end
 
-    def create(poll)
-      id = @poll_dataset.insert(poll)
-      poll.merge(id: id)
+    def create(poll_name, candidate_names)
+      poll_id = @poll_dataset.insert(name: poll_name)
+      candidate_names.each do |name|
+        @candidate_dataset.insert(name: name, poll_id: poll_id)
+      end
+
+      poll_id
     end
 
     def destroy(poll_id)
+      @candidate_dataset.where(poll_id: poll_id).delete
       @poll_dataset.where(id: poll_id).delete
     end
 
     # Atomic update
-    def vote(candidate)
+    def vote(poll_id, candidate_id)
+      @candidate_dataset.where(poll_id: poll_id, id: candidate_id).update(votes: Sequel.expr(:votes) + 1)
     end
   end
 end

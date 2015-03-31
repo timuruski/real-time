@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
-# gem 'pg'
 gem 'dotenv'
-gem 'rack-contrib'
+gem 'pg', group: :production
+gem 'pry', group: :development
+gem 'rack-parser'
 gem 'scorched'
 gem 'sequel'
-gem 'sqlite3'
+gem 'sqlite3', group: :development
