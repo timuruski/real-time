@@ -1,7 +1,7 @@
 Sequel.migration do
-  STDOUT.puts __FILE__
+  # STDOUT.puts __FILE__
   up do
-    create_table :candidates do
+    create_table :choices do
       primary_key :id
       foreign_key :poll_id, :polls
       column :name, String, null: false
@@ -10,6 +10,6 @@ Sequel.migration do
   end
 
   down do
-    drop_table :candidates
+    drop_table :choices
   end
 end

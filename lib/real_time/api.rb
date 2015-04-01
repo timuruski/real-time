@@ -27,7 +27,7 @@ module RealTime
 
     post '/' do
       poll_name = request.POST.fetch('name')
-      option_names = request.POST.fetch('options')
+      option_names = request.POST.fetch('choices')
       poll_id = repo.create_poll(poll_name, option_names)
 
       poll_path(poll_id)
@@ -36,14 +36,14 @@ module RealTime
     get '/:id' do
       poll_id = request.captures[:id]
       poll = repo.find_poll(poll_id)
-      options = repo.find_poll_options(poll_id)
+      choices = repo.find_poll_choices(poll_id)
 
       halt 404 if poll.nil?
 
       {
         name: poll[:name],
         href: poll_path(poll[:id]),
-        options: options.map { |option|
+        choices: choices.map { |option|
           {
             name: option[:name],
             votes: option[:votes],

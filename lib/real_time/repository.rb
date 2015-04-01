@@ -3,11 +3,11 @@ require 'real_time/db'
 module RealTime
   class Repository
     POLLS_TABLE = :polls
-    CANDIDATES_TABLE = :candidates
+    CHOICES_TABLE = :choices
 
     def initialize(database = DB)
       @poll_dataset = database.from(POLLS_TABLE)
-      @candidate_dataset = database.from(CANDIDATES_TABLE)
+      @candidate_dataset = database.from(CHOICES_TABLE)
     end
 
     def all_polls
@@ -18,7 +18,7 @@ module RealTime
       @poll_dataset[id: id]
     end
 
-    def find_poll_options(poll_id)
+    def find_poll_choices(poll_id)
       @candidate_dataset.where(poll_id: poll_id).all
     end
 

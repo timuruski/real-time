@@ -25,7 +25,7 @@ To fetch a single poll.
     {
       "name": "Best Starship Captain",
       "href": "/polls/123",
-      "options": [
+      "choices": [
         {
           "name": "Jean Luc Picard",
           "votes": 34,
@@ -40,7 +40,7 @@ Create a new poll.
     # Request: POST /polls
     {
       "name": "Best Starship Captain",
-      "options": [
+      "choices": [
         "Jean Luc Picard",
         "James Kirk",
         "Benjamin Sisko",
@@ -53,9 +53,9 @@ Create a new poll.
 
     { "href": "/polls/123" }
 
-Voting for an option.
+Voting for a choice.
 
-    # Request: POST /polls/<id>/<option>
+    # Request: POST /polls/<id>/<choice>
 
     # Response: 200
 

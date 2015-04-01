@@ -1,5 +1,5 @@
 Sequel.migration do
-  STDOUT.puts __FILE__
+  # STDOUT.puts __FILE__
   up do
     create_table :polls do
       primary_key :id
