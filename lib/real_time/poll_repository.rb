@@ -10,15 +10,19 @@ module RealTime
       @candidate_dataset = database.from(CANDIDATES_TABLE)
     end
 
-    def all
+    def all_polls
       @poll_dataset.all
     end
 
-    def find(id)
+    def find_poll(id)
       @poll_dataset[id: id]
     end
 
-    def create(poll_name, candidate_names)
+    def find_poll_options(poll_id)
+      @candidate_dataset.where(poll_id: poll_id).all
+    end
+
+    def create_poll(poll_name, candidate_names)
       poll_id = @poll_dataset.insert(name: poll_name)
       candidate_names.each do |name|
         @candidate_dataset.insert(name: name, poll_id: poll_id)
@@ -27,7 +31,7 @@ module RealTime
       poll_id
     end
 
-    def destroy(poll_id)
+    def destroy_poll(poll_id)
       @candidate_dataset.where(poll_id: poll_id).delete
       @poll_dataset.where(id: poll_id).delete
     end

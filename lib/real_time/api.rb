@@ -1,15 +1,11 @@
-require 'scorched'
 require 'json'
+require 'scorched'
 
 require 'real_time/poll_repository'
 
 module RealTime
   class Api < Scorched::Controller
-    # Enable JSON content.
     JSON_CONTENT = 'application/json'.freeze
-    # before content_type: JSON_CONTENT do
-    #   request.POST = JSON.parse request.body
-    # end
 
     after media_type: JSON_CONTENT do
       if response.body
@@ -19,27 +15,47 @@ module RealTime
     end
 
     get '/' do
-      polls.all
+      {
+        polls: repo.all_polls.map { |poll|
+          {
+            name: poll[:name],
+             href: poll_path(poll[:id])
+          }
+        }
+      }
     end
 
     post '/' do
       poll_name = request.POST.fetch('name')
-      candidate_names = request.POST.fetch('candidates')
-      poll_id = polls.create(poll_name, candidate_names)
+      option_names = request.POST.fetch('options')
+      poll_id = repo.create_poll(poll_name, option_names)
 
-      absolute "/#{poll_id}"
+      poll_path(poll_id)
     end
 
     get '/:id' do
       poll_id = request.captures[:id]
-      poll = polls.find(poll_id)
+      poll = repo.find_poll(poll_id)
+      options = repo.find_poll_options(poll_id)
 
-      poll or halt 404
+      halt 404 if poll.nil?
+
+      {
+        name: poll[:name],
+        href: poll_path(poll[:id]),
+        options: options.map { |option|
+          {
+            name: option[:name],
+            votes: option[:votes],
+            href: option_path(poll_id, option[:id])
+          }
+        }
+      }
     end
 
     delete '/:id' do
       poll_id = request.captures[:id]
-      polls.destroy(poll_id)
+      repo.destroy_poll(poll_id)
 
       nil
     end
@@ -55,8 +71,16 @@ module RealTime
 
     private
 
-    def polls
-      @polls = PollRepository.new
+    def repo
+      @repo = PollRepository.new
+    end
+
+    def poll_path(id)
+      absolute "/#{id}"
+    end
+
+    def option_path(poll_id, option_id)
+      absolute "/#{poll_id}/#{option_id}"
     end
   end
 end
