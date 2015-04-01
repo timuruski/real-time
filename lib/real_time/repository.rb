@@ -1,7 +1,7 @@
 require 'real_time/db'
 
 module RealTime
-  class PollRepository
+  class Repository
     POLLS_TABLE = :polls
     CANDIDATES_TABLE = :candidates
 

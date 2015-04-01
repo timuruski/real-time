@@ -1,7 +1,7 @@
 require 'json'
 require 'scorched'
 
-require 'real_time/poll_repository'
+require 'real_time/repository'
 
 module RealTime
   class Api < Scorched::Controller
@@ -72,7 +72,7 @@ module RealTime
     private
 
     def repo
-      @repo = PollRepository.new
+      @repo = Repository.new
     end
 
     def poll_path(id)
